@@ -29,36 +29,6 @@ async def search(bot, message):
        
 
 
-@Client.on_callback_query(filters.regex(r"^recheck"))
-async def recheck(bot, update):
-    clicked = update.from_user.id
-    try:      
-       typed = update.message.reply_to_message.from_user.id
-    except:
-       return await update.message.delete(2)       
-    if clicked != typed:
-       return await update.answer("That's not for you! 👀", show_alert=True)
-
-    m=await update.message.edit("Searching..💥")
-    id      = update.data.split("_")[-1]
-    query   = await search_imdb(id)
-    channels = (await get_group(update.message.chat.id))["channels"]
-    head    = "<u>I Have Searched Movie With Wrong Spelling But Take care next time 👇\n\nPromoted By </u> <b><I>@UpdatesByAman</I></b>\n\n"
-    results = ""
-    try:
-       for channel in channels:
-           async for msg in User.search_messages(chat_id=channel, query=query):
-               name = (msg.text or msg.caption).split("\n")[0]
-               if name in results:
-                  continue 
-               results += f"<b><I>♻️🍿 {name}</I></b>\n\n🔗 {msg.link}</I></b>\n\n"
-       if bool(results)==False:          
-          return await update.message.edit("Still no results found! Please Request To Group Admin", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🎯 Request To Admin 🎯", callback_data=f"request_{id}")]]))
-       await update.message.edit(text=head+results, disable_web_page_preview=True)
-    except Exception as e:
-       await update.message.edit(f"❌ Error: `{e}`")
-
-
 @Client.on_callback_query(filters.regex(r"^request"))
 async def request(bot, update):
     clicked = update.from_user.id
