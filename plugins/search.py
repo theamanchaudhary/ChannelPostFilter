@@ -26,20 +26,6 @@ async def search(bot, message):
                if name in results:
                   continue 
                results += f"<b><I>♻️ {name}\n🔗 {msg.link}</I></b>\n\n"                                                      
-       if bool(results)==False:
-          movies = await search_imdb(query)
-          buttons = []
-          for movie in movies: 
-              buttons.append([InlineKeyboardButton(movie['title'], callback_data=f"recheck_{movie['id']}")])
-          msg = await message.reply_photo(photo="https://telegra.ph/file/cf6706158b0bfaf436f54.jpg",
-                                          caption="<b><I>I Couldn't find anything related to Your Query😕.\nDid you mean any of these?</I></b>", 
-                                          reply_markup=InlineKeyboardMarkup(buttons))
-       else:
-          msg = await message.reply_text(text=head+results, disable_web_page_preview=True)
-       _time = (int(time()) + (15*60))
-       await save_dlt_message(msg, _time)
-    except:
-       pass
        
 
 
@@ -57,7 +43,7 @@ async def recheck(bot, update):
     id      = update.data.split("_")[-1]
     query   = await search_imdb(id)
     channels = (await get_group(update.message.chat.id))["channels"]
-    head    = "<u>I Have Searched Movie With Wrong Spelling But Take care next time 👇\n\nPromoted By </u> <b><I>@GreyMatter_Bots</I></b>\n\n"
+    head    = "<u>I Have Searched Movie With Wrong Spelling But Take care next time 👇\n\nPromoted By </u> <b><I>@UpdatesByAman</I></b>\n\n"
     results = ""
     try:
        for channel in channels:
