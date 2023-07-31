@@ -27,10 +27,4 @@ async def search(bot, message):
                   continue 
                results += f"<b><I>♻️ {name}\n🔗 {msg.link}</I></b>\n\n"
     if bool(results)==False:
-          movies = await (query)
-          buttons = []
-          for movie in movies: 
-              buttons.append([InlineKeyboardButton(movie['title'], callback_data=f"recheck_{movie['id']}")])
-          msg = await message.reply_photo(photo="https://telegra.ph/file/997e3df68001ca73a845f.jpg",
-                                          caption="<b><I>I Couldn't find anything related to Your Query😕.\nDid you mean any of these?</I></b>", 
-                                          reply_markup=InlineKeyboardMarkup(buttons))
+          print("Other Bot Is Searching Your File 🫧")
